@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BaseHeader :user="user" @logout="logout"/>
+    <BaseHeader />
     <div class="layout">
       <Sidebar
         :categories="categories"
@@ -14,18 +14,14 @@
         <NuxtPage />
       </main>
     </div>
-    <AuthModal v-if="!user" @success="onAuthSuccess"/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAuth } from '~/composables/useAuth'
 import { useRecipeFilters } from '~/composables/useRecipeFilters'
 import BaseHeader from '~/components/BaseHeader.vue'
 import Sidebar from '~/components/Sidebar.vue'
-import AuthModal from '~/components/AuthModal.vue'
 
-const { user, logout, onAuthSuccess } = useAuth()
 const {
   categories,
   selectedCategory,

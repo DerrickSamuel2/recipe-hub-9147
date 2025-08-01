@@ -11,10 +11,8 @@
 <script setup lang="ts">
 import RecipeModal from '~/components/RecipeModal.vue'
 import { useRouter } from 'vue-router'
-import { useAuth } from '~/composables/useAuth'
 const router = useRouter()
 const API_URL = 'http://localhost:8000/api'
-const { getHeaders } = useAuth()
 
 function goHome() {
   router.push('/')
@@ -22,7 +20,7 @@ function goHome() {
 async function onSave(form) {
   await fetch(`${API_URL}/recipes/`, {
     method: 'POST',
-    headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(form)
   })
   goHome()

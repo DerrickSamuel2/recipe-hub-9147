@@ -26,9 +26,7 @@
 import { ref, computed } from 'vue'
 import RecipeCard from '~/components/RecipeCard.vue'
 import RecipeModal from '~/components/RecipeModal.vue'
-import { useAuth } from '~/composables/useAuth'
 const API_URL = 'http://localhost:8000/api'
-const { getHeaders } = useAuth()
 
 const recipes = ref<any[]>([])
 const search = ref('')
@@ -37,7 +35,7 @@ const selectedRecipe = ref<any>(null)
 const editMode = ref(false)
 
 async function fetchRecipes() {
-  const res = await fetch(`${API_URL}/recipes/`, { headers: getHeaders() })
+  const res = await fetch(`${API_URL}/recipes/`)
   recipes.value = await res.json()
 }
 fetchRecipes()
@@ -68,14 +66,14 @@ async function onSaveRecipe(form) {
     // Edit (PUT)
     await fetch(`${API_URL}/recipes/${selectedRecipe.value.id}/`, {
       method: 'PUT',
-      headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)
     })
   } else {
     // Create (POST)
     await fetch(`${API_URL}/recipes/`, {
       method: 'POST',
-      headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)
     })
   }
@@ -84,8 +82,7 @@ async function onSaveRecipe(form) {
 }
 async function onDeleteRecipe(recipeId) {
   await fetch(`${API_URL}/recipes/${recipeId}/`, {
-    method: 'DELETE',
-    headers: getHeaders()
+    method: 'DELETE'
   })
   showModal.value = false
   await fetchRecipes()

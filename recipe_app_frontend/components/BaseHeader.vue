@@ -9,15 +9,12 @@
       <NuxtLink to="/create" class="nav-link">Add Recipe</NuxtLink>
     </nav>
     <div class="user-section">
-      <span v-if="user">{{ user.username }}</span>
-      <button v-if="user" @click="$emit('logout')">Logout</button>
-      <span v-else>Login/Signup</span>
+      <!-- All features are public, so no login/register/logout UI for now -->
     </div>
   </header>
 </template>
 <script setup lang="ts">
-defineProps(['user'])
-defineEmits(['logout'])
+// No props or emits for now
 </script>
 <style scoped>
 .app-header {

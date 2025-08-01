@@ -19,10 +19,8 @@
 import { ref, onMounted } from 'vue'
 import RecipeModal from '~/components/RecipeModal.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAuth } from '~/composables/useAuth'
 
 const API_URL = 'http://localhost:8000/api'
-const { getHeaders } = useAuth()
 const route = useRoute()
 const router = useRouter()
 
@@ -30,7 +28,7 @@ const recipe = ref(null)
 const editMode = ref(false)
 
 async function fetchRecipe() {
-  const res = await fetch(`${API_URL}/recipes/${route.params.id}/`, { headers: getHeaders() })
+  const res = await fetch(`${API_URL}/recipes/${route.params.id}/`)
   recipe.value = await res.json()
 }
 
@@ -41,7 +39,7 @@ function goHome() { router.push('/') }
 async function onSave(form) {
   await fetch(`${API_URL}/recipes/${route.params.id}/`, {
     method: 'PUT',
-    headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(form)
   })
   editMode.value = false
@@ -49,8 +47,7 @@ async function onSave(form) {
 }
 async function onDelete() {
   await fetch(`${API_URL}/recipes/${route.params.id}/`, {
-    method: 'DELETE',
-    headers: getHeaders()
+    method: 'DELETE'
   })
   goHome()
 }
